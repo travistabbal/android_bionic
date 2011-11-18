@@ -505,9 +505,8 @@ ifeq ($(TARGET_ARCH),arm)
   #
   # The value must match your kernel configuration
   #
-  ifeq ($(ARCH_ARM_HAVE_TLS_REGISTER),true)
-    libc_common_cflags += -DHAVE_ARM_TLS_REGISTER
-  endif
+  libc_common_cflags += -DHAVE_ARM_TLS_REGISTER
+  libc_common_cflags += -DHAVE_TEGRA_ERRATA_657451
 else # !arm
   ifeq ($(TARGET_ARCH),x86)
     libc_crt_target_cflags := -m32

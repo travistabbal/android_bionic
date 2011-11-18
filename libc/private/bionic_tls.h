@@ -111,21 +111,23 @@ extern int __set_tls(void *ptr);
  * Note that HAVE_ARM_TLS_REGISTER is build-specific
  * (it must match your kernel configuration)
  */
-#    ifdef HAVE_ARM_TLS_REGISTER
+//#    ifdef HAVE_ARM_TLS_REGISTER
  /* We can read the address directly from a coprocessor
   * register, which avoids touching the data cache
   * completely.
   */
+#      define __munge_tls(_v) ( ((_v)&~((1ul<<20)|1ul)) | (((_v)&0x1)<<20) ) 
 #      define __get_tls() \
     ({ register unsigned int __val asm("r0"); \
        asm ("mrc p15, 0, r0, c13, c0, 3" : "=r"(__val) ); \
+       __val = __munge_tls(__val); \
        (volatile void*)__val; })
-#    else /* !HAVE_ARM_TLS_REGISTER */
+//#    else /* !HAVE_ARM_TLS_REGISTER */
  /* The kernel provides the address of the TLS at a fixed
   * address of the magic page too.
   */
-#      define __get_tls() ( *((volatile void **) 0xffff0ff0) )
-#    endif
+//#      define __get_tls() ( *((volatile void **) 0xffff0ff0) )
+//#    endif
 #  endif /* !LIBC_STATIC */
 #else /* !ARM */
 extern void*  __get_tls( void );

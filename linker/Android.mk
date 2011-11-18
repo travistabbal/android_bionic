@@ -39,10 +39,9 @@ LOCAL_CFLAGS += -DLINKER_DEBUG=0
 # we need to access the Bionic private header <bionic_tls.h>
 # in the linker; duplicate the HAVE_ARM_TLS_REGISTER definition
 # from the libc build
-ifeq ($(TARGET_ARCH)-$(ARCH_ARM_HAVE_TLS_REGISTER),arm-true)
-    LOCAL_CFLAGS += -DHAVE_ARM_TLS_REGISTER
-endif
+LOCAL_CFLAGS += -DHAVE_ARM_TLS_REGISTER
 LOCAL_CFLAGS += -I$(LOCAL_PATH)/../libc/private
+LOCAL_CFLAGS += -DHAVE_TEGRA_ERRATA_657451
 
 ifeq ($(TARGET_ARCH),arm)
 LOCAL_CFLAGS += -DANDROID_ARM_LINKER
